@@ -19,27 +19,60 @@
     {% endif %}
   {% endfor %}
 {% endcomment %}
+<article class="py-8">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'title' %}
+        <div class="flex items-center justify-center">
+          <div class="max-w-7xl text-center">
+            <a href="{{ blog.url }}" class="uppercase text-gray-500 hover:text-gray-900 font-bold">{{ blog.title }}</a>
+            <h1 class=" text-4xl md:text-6xl font-medium ">{{ article.title | capitalize }}</h1>
+          </div>
+        </div>
 
-{% for block in section.blocks %}
-  {% case block.type %}
-    {% when 'title' %}
-      <h1>{{ article.title }}</h1>
-    {% when 'author' %}
-      {% if section.settings['author-check'] %}
-        <small>{{ article.author }}</small>
-      {% endif %}
-    {% when 'publish-date' %}
-      {% if section.settings['time-check'] %}
-        <time datetime="{{ article.published_at | date: '%d-%m-%Y' }}">
-          {{- article.published_at | date: '%d-%m-%Y' -}}
-        </time>
-      {% endif %}
-    {% when 'featured-img' %}
-      <img src="{{ article.image | img_url:'large' }}" alt="{{ article.image.alt }}">
-    {% when 'content' %}
-      <div>{{ article.content }}</div>
-  {% endcase %}
-{% endfor %}
+      {% when 'author' %}
+        <div class="flex items-center justify-center">
+          <div class="max-w-7xl text-center">
+            {% if section.settings['author-check'] %}
+              <small>{{ article.author }}</small>
+            {% endif %}
+          </div>
+        </div>
+      {% when 'publish-date' %}
+        <div class="flex items-center justify-center">
+          <div class="max-w-7xl text-center">
+            {% if section.settings['time-check'] %}
+              <time datetime="{{ article.published_at | date: '%d-%m-%Y' }}">
+                {{ article.published_at | date: format: 'on_date' }}
+              </time>
+            {% endif %}
+          </div>
+        </div>
+      {% when 'featured-img' %}
+        <div
+          style="max-width: 768px; margin: auto;"
+          class="max-w-3xl bg-red-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-4"
+        >
+          {% if article.image != blank %}
+            <img
+              class=" w-full h-80 md:h-96 object-cover object-center"
+              src="{{ article.image | img_url:'master' }}"
+              alt="{{ article.image.alt }}"
+            >
+          {% else %}
+            {% assign placeholder_image = 'lifestyle-2' %}
+            {{ placeholder_image | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5' }}
+          {% endif %}
+        </div>
+      {% when 'content' %}
+        <div class="flex justify-center items-center">
+          <div style="max-width: 740px; margin: auto; text-align: justify;">
+            {{ article.content }}
+          </div>
+        </div>
+    {% endcase %}
+  {% endfor %}
+</article>
 
 {% schema %}
 {
