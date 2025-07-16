@@ -1,0 +1,51 @@
+{% comment %}
+  <h1>{{ "general.404.title" | t }}</h1>
+  <p>{{ "general.404.subtext_html" | t }}</p>
+{% endcomment %}
+<section class="flex justify-center items-center text-center h-screen">
+  <div class="max-w-md ">
+    <div class="text-4xl font-bold">{{ section.settings.title }}</div>
+    <div class="mt-2">
+      <p class="text-xl">{{ section.settings.subtext }}</p>
+    </div>
+    <div class="mt-8">
+      {% if section.settings['button-url'] == blank %}
+        {% assign btn-url = shop.secure_url %}
+      {% else %}
+        {% assign btn-url = shop.secure_url %}
+      {% endif %}
+      <a href="{{ btn-url }}" class="bg-red-400 rounded-md text-white p-5 hover:bg-red-300">{{ section.settings['button-text'] }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Template 404",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "404 template title",
+      "default": "404 Not Found"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "404 template subtext",
+      "default": "The page you were looking for does not exist"
+    },
+    {
+      "type": "text",
+      "id": "button-text",
+      "label": "Button Text",
+      "default": "go back to home page"
+    },
+    {
+      "type": "url",
+      "id": "button-url",
+      "label": "Button URL"
+    }
+  ]
+}
+{% endschema %}
