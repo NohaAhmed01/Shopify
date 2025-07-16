@@ -1,0 +1,89 @@
+{% comment %}
+  {% for block in section.blocks %}
+    {% if block.type == 'title' %}
+      <h1>{{ article.title }}</h1>
+    {% elsif block.type == 'author' %}
+      {% if section.settings['author-check'] %}
+        <small>{{ article.author }}</small>
+      {% endif %}
+    {% elsif block.type == 'publish-date' %}
+      {% if section.settings['time-check'] %}
+        <time datetime="{{ article.published_at | date: '%d-%m-%Y' }}">
+          {{- article.published_at | date: '%d-%m-%Y' -}}
+        </time>
+      {% endif %}
+    {% elsif block.type == 'featured-img' %}
+      <img src="{{ article.image | img_url:'large' }}" alt="{{ article.image.alt }}">
+    {% elsif block.type == 'content' %}
+      <div>{{ article.content }}</div>
+    {% endif %}
+  {% endfor %}
+{% endcomment %}
+
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'title' %}
+      <h1>{{ article.title }}</h1>
+    {% when 'author' %}
+      {% if section.settings['author-check'] %}
+        <small>{{ article.author }}</small>
+      {% endif %}
+    {% when 'publish-date' %}
+      {% if section.settings['time-check'] %}
+        <time datetime="{{ article.published_at | date: '%d-%m-%Y' }}">
+          {{- article.published_at | date: '%d-%m-%Y' -}}
+        </time>
+      {% endif %}
+    {% when 'featured-img' %}
+      <img src="{{ article.image | img_url:'large' }}" alt="{{ article.image.alt }}">
+    {% when 'content' %}
+      <div>{{ article.content }}</div>
+  {% endcase %}
+{% endfor %}
+
+{% schema %}
+{
+  "name": "Article Template",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "author-check",
+      "label": "Show Author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "time-check",
+      "label": "Show Publish Time",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Article Title",
+      "limit": 1
+    },
+    {
+      "type": "author",
+      "name": "Article Author",
+      "limit": 1
+    },
+    {
+      "type": "publish-date",
+      "name": "Published Date",
+      "limit": 1
+    },
+    {
+      "type": "featured-img",
+      "name": "Featured Image",
+      "limit": 1
+    },
+    {
+      "type": "content",
+      "name": "Article Content",
+      "limit": 1
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,26 @@
+{
+    "sections":{
+        "template":{
+            "type":"article-template",
+            "blocks":{
+                "title":{
+                    "type":"title"
+                },
+                "author":{
+                    "type":"author"
+                },
+                "publish-date":{
+                    "type":"publish-date"
+                },
+                "featured-img":{
+                    "type":"featured-img"
+                },
+                "content":{
+                    "type":"content"
+                }
+            },
+            "block_order":["title","author","publish-date","featured-img","content"]
+        }
+    },
+    "order":["template"]
+}
