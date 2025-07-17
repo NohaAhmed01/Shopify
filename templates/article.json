@@ -1,7 +1,7 @@
 {
     "sections":{
         "template":{
-            "type":"article-template",
+            "type":"template-article",
             "blocks":{
                 "title":{
                     "type":"title"

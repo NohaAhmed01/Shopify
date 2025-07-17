@@ -1,8 +1,8 @@
 {
     "sections":{
-        "template":{
-            "type":"blog-template"
+        "template-blog":{
+            "type":"template-blog"
         }
     },
-    "order":["template"]
+    "order":["template-blog"]
 }
