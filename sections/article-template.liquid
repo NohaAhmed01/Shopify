@@ -175,6 +175,33 @@
   </div>
 {% endif %}
 
+<script type="application/ld+json">
+  {
+    "@context":"http://schema.org",
+    "@type":"BlopPosting",
+    "headline":{{ article.title | json }},
+    "articleBody":{{ article.content |strip_html |json }},
+    {% if article.excerpt != blank %}
+      "description":{{ article.excerpt | strip_html | json }},
+    {% endif %}
+    {% if article.image %}
+      "image":[
+        {{ article.image | image_url:"medium" | prepend: "https://"  }}
+      ],
+    {% endif %}
+    "datePublished":{{ article.published_at | date: format: 'default' | json}}
+    "dateCreated":{{ article.created_at | date: format: 'default' | json}}
+    "author":{
+      "@type":"Person",
+      "name":{{ article.author | json }}
+    },
+    "publisher":{
+      "@type":"Organization",
+      "name":{{ shop.name | json }}}
+    
+  }
+</script>
+
 {% schema %}
 {
   "name": "Article Template",
