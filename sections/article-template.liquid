@@ -26,15 +26,15 @@
         <div class="flex items-center justify-center">
           <div class="max-w-7xl text-center">
             <a href="{{ blog.url }}" class="uppercase text-gray-500 hover:text-gray-900 font-bold">{{ blog.title }}</a>
-            <h1 class=" text-4xl md:text-6xl font-medium ">{{ article.title | capitalize }}</h1>
+            <h1 class=" text-4xl md:text-6xl font-medium " itemprop="headline">{{ article.title | capitalize }}</h1>
           </div>
         </div>
 
       {% when 'author' %}
         <div class="flex items-center justify-center">
-          <div class="max-w-7xl text-center">
+          <div class="max-w-7xl text-center" itemscope itemtype="http://schema.org/Person">
             {% if section.settings['author-check'] %}
-              <small>{{ article.author }}</small>
+              <small itemprop="author">{{ article.author }}</small>
             {% endif %}
           </div>
         </div>
@@ -42,14 +42,14 @@
         <div class="flex items-center justify-center">
           <div class="max-w-7xl text-center my-2">
             {% if section.settings['time-check'] %}
-              <time datetime="{{ article.published_at | date: '%d-%m-%Y' }}">
+              <time datetime="{{ article.published_at | date: '%d-%m-%Y' }}" itemprop="datePublished dateCreated">
                 {{ article.published_at | date: format: 'on_date' }}
               </time>
             {% endif %}
           </div>
         </div>
       {% when 'featured-img' %}
-        <div
+        <div itemprop="image"
           class="max-w-3/4 w-full h-80 bg-red-100 rounded-lg mx-auto md:mx-auto overflow-hidden my-4 object-cover object-center "
         >
           {% if article.image != blank %}
@@ -65,7 +65,7 @@
         </div>
       {% when 'content' %}
         <div class="flex justify-center items-center ">
-          <div class="max-w-3/4 w-full mx-auto text-justify">
+          <div itemprop="articleBody" class="max-w-3/4 w-full mx-auto text-justify">
             {{ article.content }}
           </div>
         </div>
