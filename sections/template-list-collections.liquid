@@ -5,7 +5,7 @@
             {% for collection in collections %}
             {% if collection.all_products_count > 0 %}
                 <div class="w-full py-6 px-3 ">
-                <div class="border bg-white overflow-hidden transition duration-1000 ease-in-out hover:scale-105 transform">
+                <div class=" rounded shadow-lg bg-white overflow-hidden transition duration-1000 ease-in-out hover:scale-105 transform">
                     <a href="{{ collection.url }}">
                     <div class="h-80 overflow-hidden">
                         {% if collection.featured_image != blank %}
