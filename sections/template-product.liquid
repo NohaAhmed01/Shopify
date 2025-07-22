@@ -33,11 +33,11 @@
       </div>
 
       <div class="md:hidden">
-        <div class="swiper h-94">
+        <div class="swiper">
           <div class="swiper-wrapper">
             {% for media in product.media %}
               <div class="swiper-slide">
-                <div class="h-80 overflow-hidden p-2">
+                <div class="h-[100vw] overflow-hidden p-2">
                   {% render 'product-media', prod_media: media %}
                 </div>
               </div>
@@ -159,14 +159,14 @@
     onVariantChange() {
       this.getSelectedOptions();
       this.getSelectedVariant();
-      if(this.currentVariant){
+      if (this.currentVariant) {
         this.updateURL();
         this.updateFormID();
         this.updatePrice();
-     }
+      }
     }
-    //grab the currently selected options by the customer by reading the value of the select elements 
-    //and saving them in an array 
+    //grab the currently selected options by the customer by reading the value of the select elements
+    //and saving them in an array
     getSelectedOptions() {
       this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
       console.log(this.options);
@@ -180,7 +180,7 @@
     //Loop through all variants.and for each variant:
     //Check if its options exactly match what the customer selected.
     //If yes then this is the variant!
-    
+
     /*getSelectedVariant() {
       this.currentVariant = this.getVariantJSON().find((variant) => {
         const findings = !variant.options.map((option, index) => {
@@ -194,49 +194,54 @@
     //simpler version
     getSelectedVariant() {
       // Find variant where all options match selected options
-      this.currentVariant = this.getVariantJSON().find(variant =>
-      variant.options.every((option, index) => option === this.options[index])
+      this.currentVariant = this.getVariantJSON().find((variant) =>
+        variant.options.every((option, index) => option === this.options[index])
       );
       console.log(this.currentVariant);
     }
 
-    updateURL(){
-        if(!this.currentVariant) return;
-        history.replaceState({},'',`${this.dataset.url}?variant=${this.currentVariant.id}`)
+    updateURL() {
+      if (!this.currentVariant) return;
+      history.replaceState({}, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
     }
 
-    updateFormID(){
-        const form_input = document.querySelector("#product-form").querySelector('input[name="id"]');
-        form_input.value = this.currentVariant.id;
+    updateFormID() {
+      const form_input = document.querySelector('#product-form').querySelector('input[name="id"]');
+      form_input.value = this.currentVariant.id;
     }
 
-   updatePrice() {
-            fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
-            .then((response) => response.text())
-            .then((responseText) => {
-                const id = `price-${this.dataset.section}`;
-                const html = new DOMParser().parseFromString(responseText, 'text/html');
+    updatePrice() {
+      fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
+        .then((response) => response.text())
+        .then((responseText) => {
+          const id = `price-${this.dataset.section}`;
+          const html = new DOMParser().parseFromString(responseText, 'text/html');
 
-                const oldPrice = document.getElementById(id);
-                const newPrice = html.getElementById(id);
+          const oldPrice = document.getElementById(id);
+          const newPrice = html.getElementById(id);
 
-                if(oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML;
-            });
-        }
-
+          if (oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML;
+        });
+    }
   }
   customElements.define('variant-selector', VariantSelector);
 </script>
 <script>
-  const swiper = new Swiper('.swiper', {
-    direction: 'horizontal',
-    pagination: {
-      el: '.swiper-pagination',
-    },
-    navigation: {
-      prevEl: '.swiper-button-prev',
-      nextEl: '.swiper-button-next',
-    },
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      const swiper = new Swiper('.swiper', {
+        direction: 'horizontal',
+        pagination: {
+          el: '.swiper-pagination',
+        },
+        navigation: {
+          prevEl: '.swiper-button-prev',
+          nextEl: '.swiper-button-next',
+        },
+      });
+    } catch (e) {
+      console.log('SwiperJS is not defined');
+    }
   });
 </script>
 
