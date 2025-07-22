@@ -1,0 +1,118 @@
+<div x-data="{new_address: false}" class="max-w-6xl mx-auto px-4 py-12">
+  <div class="flex flex-col md:flex-row items-center justify-between my-5 gap-4">
+    <h1 class="text-2xl font-bold text-gray-700">Addresses</h1>
+    <button x-on:click="new_address = true" type="button" class="text-white font-medium bg-red-700 hover:bg-red-900 px-6 py-2">
+      Create new address
+    </button>
+    <a href="{{ routes.account_url }}" class="text-red-600 hover:text-red-800 font-medium underline">Back to account</a>
+  </div>
+
+  <div x-show="new_address" class="h-full w-full fixed inset-0 bg-red-400/50 overflow-y-auto z-50">
+    <div class="relative max-w-md mx-auto bg-white border top-20 p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-medium text-red-700">New address</h2>
+            <button x-on:click="new_address = false" type="button" class="text-gray-500 hover:text-red-600">{% render 'close-icon' %}</button>
+        </div>
+        {% form 'customer_address', customer.new_address %}
+          <div class="mb-4">
+            <label for="address_fname_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">First name</label>
+            <input type="text" name="address[first_name]" id="address_fname_{{ form.id }}" value="{{ form.first_name }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">
+          </div>
+
+          <div class="mb-4">
+            <label for="address_lname_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">last name</label>
+            <input type="text" name="address[last_name]" id="address_lname_{{ form.id }}" value="{{ form.last_name }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">
+          </div>
+
+          <div class="mb-4">
+            <label for="address_company_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">company</label>
+            <input type="text" name="address[company]" id="address_company_{{ form.id }}" value="{{ form.company }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">
+          </div>
+
+          <div class="mb-4">
+            <label for="address_address1_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">address 1</label>
+            <input type="text" name="address[address1]" id="address_address1_{{ form.id }}" value="{{ form.address1 }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">
+          </div>
+
+          <div class="mb-4">
+            <label for="address_address2_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">address 2</label>
+            <input type="text" name="address[address2]" id="address_address2_{{ form.id }}" value="{{ form.address2 }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">
+          </div>
+
+          <div class="mb-4">
+            <label for="address_city_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">city</label>
+            <input type="text" name="address[city]" id="address_city_{{ form.id }}" value="{{ form.city }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">
+          </div>
+
+          <div class="mb-4">
+            <label for="address_country_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">Country</label>
+            <select 
+                name="address[country]" 
+                id="address_country_{{ form.id }}"
+                value="{{ form.country }}"
+                class="w-full text-gray-700 border px-4 py-3 focus:outline-none"
+            >
+                {{ all_country_option_tags }}
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label for="address_province_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">province</label>
+              <select 
+                  name="address[province]" 
+                  id="address_province_{{ form.id }}"
+                  value="{{ form.province }}"
+                  class="w-full text-gray-700 border px-4 py-3 focus:outline-none"
+              >
+                  {{ all_country_option_tags }}
+              </select>
+          </div>
+
+          <div class="mb-4">
+            <label for="address_zip_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">pstal/zip</label>
+            <input type="text" name="address[zip]" id="address_zip_{{ form.id }}" value="{{ form.zip }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">       
+          </div>
+
+          <div class="mb-4">
+            <label for="address_phone_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2">pstal/zip</label>
+            <input type="tel" name="address[phone]" id="address_phone_{{ form.id }}" value="{{ form.phone }}" class="border w-full text-gray-700 px-4 py-3 focus:outline-none">       
+          </div>
+
+          <div class="flex flex-row gap-2">
+            <button type="submit" class="w-full font-mediumpx-4 py-2 text-white bg-red-700 hover:bg-red-600"></button>
+            <button type="reset" class="w-full font-mediumpx-4 py-2 border text-red-700 hover:bg-red-100"></button>
+          </div>
+        {% endform %}
+    </div>
+  </div>
+
+  <div>
+    {% paginate customer.addresses by 5 %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-12 p-4 md:p-12">
+        {% for address in customer.addresses %}
+          <div>
+            <div class="relative flex flex-col text-center border p-2">
+              {% if address == customer.default_address %}
+                <div class="text-center text-white bg-red-700 p-2 mx-1 mt-1 mb-3 font-medium">Default</div>
+              {% endif %}
+
+              <div class="text-center m-2">{{ address | format_address }}</div>
+             <div class="flex flex-row gap-2">
+              <button type="button" class="w-full text-xs text-white bg-red-700 hover:bg-red-600 font-medium py-2">
+                Edit
+              </button>
+              <button type="button" class="w-full text-xs border text-red-700 hover:bg-red-100 font-medium py-2">
+                Delete
+              </button>
+            </div>
+            </div>
+           
+          </div>
+        {% endfor %}
+      </div>
+      <div class="max-w-6xl mx-auto">
+        {% render 'pagination', pagination: paginate %}
+      </div>
+    {% endpaginate %}
+  </div>
+</div>
