@@ -1,11 +1,13 @@
 <div class="px-4 py-8">
-  <a href="{{ routes.collections_url }}" class="text-center block my-4 text-base text-red-500 hover:underline">Go Back To Collections</a>
-  {% paginate collection.products by section.settings.no-of-products-per-page %}
+  <a href="{{ routes.collections_url }}" class="text-center block my-4 text-base text-red-500 hover:underline"
+    >Go Back To Collections</a
+  >
+  {% paginate collection.products by section.settings['no-of-products-per-page'] %}
     <h1 class="text-3xl text-center">{{ collection.title }}</h1>
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {% for product in collection.products %}
-            {% render 'product-card' , product_product: product, vendor-enable: section.settings.show-hide-vendor %}
+          {% render 'product-card', product_product: product, vendor-enable: section.settings['show-hide-vendor'] %}
         {% else %}
           <p>there are no products in this collection</p>
         {% endfor %}
@@ -19,21 +21,21 @@
 </div>
 
 {% schema %}
+{
+  "name": "Template Collection",
+  "settings": [
     {
-        "name": "Template Collection",
-        "settings": [
-            {
-                "type": "number",
-                "id": "no-of-products-per-page",
-                "default":6,  
-                "label": "Number of Products Per Page"
-            },
-            {
-                "type": "checkbox",
-                "id": "show-hide-vendor",
-                "label": "Show / Hide vendor",
-                "default":true
-            }
-        ]
+      "type": "number",
+      "id": "no-of-products-per-page",
+      "default": 6,
+      "label": "Number of Products Per Page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show-hide-vendor",
+      "label": "Show / Hide vendor",
+      "default": true
     }
+  ]
+}
 {% endschema %}

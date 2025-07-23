@@ -179,7 +179,7 @@
 <script type="application/ld+json">
   {
     "@context":"http://schema.org",
-    "@type":"BlopPosting",
+    "@type":"BlogPosting",
     "headline":{{ article.title | json }},
     "articleBody":{{ article.content |strip_html |json }},
     {% if article.excerpt != blank %}
