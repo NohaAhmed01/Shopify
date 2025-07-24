@@ -39,6 +39,10 @@
         "checkout_btn": {
           "type": "checkout_btn",
           "settings": {}
+        },
+        "offer": {
+          "type": "offer",
+          "settings":{}
         }
       },
       "block_order": [
@@ -48,7 +52,8 @@
         "description",
         "variant_selector",
         "quantity",
-        "checkout_btn"
+        "checkout_btn",
+        "offer"
       ],
       "settings": {}
     }

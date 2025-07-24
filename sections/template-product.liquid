@@ -149,6 +149,14 @@
                     {% endif %}
                   </button>
                 </div>
+              {% when 'offer' %}
+              <div class="my-3 mx-2 bg-red-100 flex flex-row justify-start items-center"> 
+                {% assign offerIconEnable =  block.settings.show_hide_icon_offer  %}
+                {% if offerIconEnable %}              
+                {% render 'icon-star'  %}
+                {% endif %}
+                <span class="text-md ml-2">{{ block.settings.offer_content }}</span>
+              </div>
               {% else %}
 
             {% endcase %}
@@ -288,6 +296,14 @@
 {% schema %}
 {
   "name": "Product",
+  "settings": [
+    {
+      "type": "text",
+      "id":"offers_text",
+      "label": "Customize the offer title",
+      "default":"this is the schema for offers"
+    }
+  ],
   "blocks": [
     {
       "type": "vendor",
@@ -323,6 +339,23 @@
       "type": "checkout_btn",
       "name": "Checkout button",
       "limit": 1
+    },
+    {
+      "type": "offer",
+      "name": "Offers",
+      "settings": [
+         {
+           "type": "text",
+           "id": "offer_content",
+           "label": "Write your offer"
+         },
+         {
+            "type": "checkbox",
+            "id": "show_hide_icon_offer",
+            "label": "Show / Hide offer icon",
+            "default": true
+         }
+       ]
     }
   ]
 }
